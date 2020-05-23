@@ -1,1 +1,2 @@
-(() => console.log("hello world"))();
+require("./styles/reset.css");
+(() => console.log("hello world!"))();
