@@ -6,19 +6,34 @@ describe("Game Field", () => {
   });
 });
 
-describe("Game Field seeds living Cells", () => {
-  const gameField = new GameField([
-    [0, 1, 0],
-    [1, 0, 1],
-  ]);
-  [("0-1", "1-0", "1-2")].forEach((key) => {
-    test(`${key} should equal living Cell`, () => {
-      expect(gameField.map[key].living).toEqual(true);
+describe("Game Field seeds living Cells with array", () => {
+  const gameArraySeed = new GameField({
+    fieldArray: [
+      [0, 1, 0],
+      [1, 0, 1],
+    ],
+  });
+  const gameMapSeed = new GameField({
+    fieldMap: {
+      "0-0": true,
+      "0-2": true,
+      "1-1": true,
+    },
+  });
+  ["0-1", "1-0", "1-2"].forEach((key) => {
+    test(`Array seed: ${key} should equal living Cell`, () => {
+      expect(gameArraySeed.map[key].living).toEqual(true);
+    });
+    test(`Map seed: ${key} should equal undefined`, () => {
+      expect(gameMapSeed.map[key]).toEqual(undefined);
     });
   });
   ["0-0", "0-2", "1-1"].forEach((key) => {
-    test(`${key} should equal undefined`, () => {
-      expect(gameField.map[key]).toEqual(undefined);
+    test(`Array seed: ${key} should equal undefined`, () => {
+      expect(gameArraySeed.map[key]).toEqual(undefined);
+    });
+    test(`Map seed: ${key} should equal living Cell`, () => {
+      expect(gameMapSeed.map[key].living).toEqual(true);
     });
   });
 });
