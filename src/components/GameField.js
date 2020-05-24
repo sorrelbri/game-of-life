@@ -1,6 +1,7 @@
-import { cellStream } from "./Cell";
+const { cellStream } = require("./Cell");
+const { Stream } = require("../utils");
 
-export default class GameField {
+class GameField {
   constructor({ fieldArray = [], fieldMap = {} }) {
     // seed = [ [] ]
     this.map = {};
@@ -19,8 +20,32 @@ export default class GameField {
   }
 }
 
+class FieldStream extends Stream {
+  constructor(head, next) {
+    super(head, next);
+  }
+  get map() {
+    return this.head.map;
+  }
+}
+
+const fieldStream = ({ fieldArray, fieldMap }) => {
+  return new FieldStream(new GameField({ fieldArray, fieldMap }), function () {
+    // calculate liveNeighbors for all cells on first next call
+
+    new FieldStream({}, function () {
+      // call .next on all Cells on second next call
+    });
+  });
+};
+
 // as a stream -> fieldStream => Stream(GameField, () => Stream(fieldStream.computeNeighbors(), () => Stream(fieldStream.setLiving()))
 
 // instantiate table (orientation of major and minor axis dependent on viewport)
 // const gameFields = new Array(1).fill(new GameField({}));
 // const container = document.getElementById("game-field");
+
+module.exports = {
+  GameField,
+  fieldStream,
+};

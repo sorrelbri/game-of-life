@@ -1,3 +1,5 @@
+const { Stream } = require("../utils");
+
 class Cell {
   constructor(living = false, liveNeighbors = 0) {
     this.living = living;
@@ -19,21 +21,6 @@ class Cell {
       return (this.living = true);
     }
     this.liveNeighbors = 0;
-  }
-}
-
-class Stream {
-  constructor(head, next) {
-    this.head = head;
-    this.tail = next;
-    this.memo = false;
-  }
-  get next() {
-    if (!this.memo) {
-      this.tail = this.tail();
-      this.memo = true;
-    }
-    return this.tail;
   }
 }
 
