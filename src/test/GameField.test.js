@@ -7,9 +7,9 @@ describe("Game Field seeds living Cells with array", () => {
   ];
 
   const fieldMap = {
-    "0,0": true,
-    "0,2": true,
-    "1,1": true,
+    "0,0": [true, 0],
+    "0,2": [true, 0],
+    "1,1": [true, 0],
   };
   const gameArraySeed = new GameField({ fieldArray });
   const gameMapSeed = new GameField({ fieldMap });
@@ -85,13 +85,13 @@ describe("fieldStream.next calculates liveNeighbors", () => {
   });
 
   const fieldMap = {
-    "0,1": true,
-    "0,2": true,
-    "1,0": true,
-    "1,1": true,
-    "1,3": true,
-    "2,1": true,
-    "2,2": true,
+    "0,1": [true, 0],
+    "0,2": [true, 0],
+    "1,0": [true, 0],
+    "1,1": [true, 0],
+    "1,3": [true, 0],
+    "2,1": [true, 0],
+    "2,2": [true, 0],
   };
   const testStream2 = fieldStream({ fieldMap });
   [
@@ -128,27 +128,149 @@ describe("fieldStream.next calculates liveNeighbors", () => {
   });
 });
 
-describe.skip("fieldStream.next tests still lifes", () => {
+describe("fieldStream.next tests still lifes", () => {
   const blockArray = [
     [1, 1],
     [1, 1],
   ];
 
-  streamBlock = fieldStream({ fieldArray: blockArray });
-  ["0,0", "0,1", "1,0", "1,1"].forEach((key) => {});
+  const streamBlock = fieldStream({ fieldArray: blockArray });
+  [
+    ["-1,-1", false],
+    ["-1,0", false],
+    ["-1,1", false],
+    ["-1,2", false],
+    ["0,-1", false],
+    ["0,0", true],
+    ["0,1", true],
+    ["0,2", false],
+    ["1,-1", false],
+    ["1,0", true],
+    ["1,1", true],
+    ["1,2", false],
+    ["2,-1", false],
+    ["2,0", false],
+    ["2,1", false],
+    ["2,2", false],
+  ].forEach(([key, live]) => {
+    test(`after one generation of Block, ${key} alive: ${live}`, () => {
+      expect(streamBlock.next.next.map[key].living).toEqual(live);
+    });
+  });
 
   const beehiveMap = {
-    "0,1": true,
-    "0,2": true,
-    "1,0": true,
-    "1,3": true,
-    "2,1": true,
-    "2,2": true,
+    "0,1": [true, 0],
+    "0,2": [true, 0],
+    "1,0": [true, 0],
+    "1,3": [true, 0],
+    "2,1": [true, 0],
+    "2,2": [true, 0],
   };
+  const streamBeehive = fieldStream({ fieldMap: beehiveMap });
+  [
+    ["-1,0", false],
+    ["-1,1", false],
+    ["-1,2", false],
+    ["-1,3", false],
+    ["0,-1", false],
+    ["0,0", false],
+    ["0,1", true],
+    ["0,2", true],
+    ["0,3", false],
+    ["0,4", false],
+    ["1,-1", false],
+    ["1,0", true],
+    ["1,1", false],
+    ["1,2", false],
+    ["1,3", true],
+    ["1,4", false],
+    ["2,-1", false],
+    ["2,0", false],
+    ["2,1", true],
+    ["2,2", true],
+    ["2,3", false],
+    ["2,4", false],
+    ["3,0", false],
+    ["3,1", false],
+    ["3,2", false],
+    ["3,3", false],
+  ].forEach(([key, live]) => {
+    test(`after one generation of Beehive, ${key} alive: ${live}`, () => {
+      expect(streamBeehive.next.next.map[key].living).toEqual(live);
+    });
+  });
 
   const boatArray = [
     [1, 1, 0],
     [1, 0, 1],
     [0, 1, 0],
   ];
+  const streamBoat = fieldStream({ fieldArray: boatArray });
+  [
+    ["-1,-1", false],
+    ["-1,0", false],
+    ["-1,1", false],
+    ["-1,2", false],
+    ["0,-1", false],
+    ["0,0", true],
+    ["0,1", true],
+    ["0,2", false],
+    ["1,-1", false],
+    ["1,0", true],
+    ["1,1", false],
+    ["1,2", true],
+    ["1,3", false],
+    ["2,-1", false],
+    ["2,0", false],
+    ["2,1", true],
+    ["2,2", false],
+    ["2,3", false],
+    ["3,0", false],
+    ["3,1", false],
+    ["3,2", false],
+  ].forEach(([key, live]) => {
+    test(`after one generation of Beehive, ${key} alive: ${live}`, () => {
+      expect(streamBoat.next.next.map[key].living).toEqual(live);
+    });
+  });
+});
+
+describe("fieldStream.next tests oscillators", () => {
+  const blinkerArray = [
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+  ];
+  const streamBlinker = fieldStream({ fieldArray: blinkerArray });
+  [
+    ["0,0", false],
+    ["0,1", false],
+    ["0,2", false],
+    ["1,0", true],
+    ["1,1", true],
+    ["1,2", true],
+    ["2,0", false],
+    ["2,1", false],
+    ["2,2", false],
+  ].forEach(([key, live]) => {
+    test(`after one generation of blinker, ${key} alive: ${live}`, () => {
+      expect(streamBlinker.next.next.map[key].living).toEqual(live);
+    });
+  });
+  [
+    ["0,0", false],
+    ["0,1", true],
+    ["0,2", false],
+    ["1,0", false],
+    ["1,1", true],
+    ["1,2", false],
+    ["2,0", false],
+    ["2,1", true],
+    ["2,2", false],
+  ].forEach(([key, live]) => {
+    test(`after two generations of blinker, ${key} alive: ${live}`, () => {
+      console.log(streamBlinker.next.next.map);
+      expect(streamBlinker.next.next.next.next.map[key].living).toEqual(live);
+    });
+  });
 });

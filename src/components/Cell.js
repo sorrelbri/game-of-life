@@ -40,6 +40,9 @@ class CellStream extends Stream {
   addLiveNeighbor() {
     this.head.addLiveNeighbor();
   }
+  setLiving() {
+    this.head.setLiving();
+  }
 }
 
 const cellStream = (living = false, liveNeighbors = 0) => {

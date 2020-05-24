@@ -12,9 +12,10 @@ class GameField {
         }
       })
     );
-    for (let key in fieldMap) {
-      this.map[key] = cellStream(true, 0);
-    }
+    Object.entries(fieldMap).forEach(
+      ([key, [live, neighbors]]) =>
+        (this.map[key] = cellStream(live, neighbors))
+    );
     // instead of implementing multiple GameFields, clear irrelevant keys and expand Game Field as needed
     // discrete Field expansion should only happen in View (to keep view fields centered)
   }
@@ -35,19 +36,43 @@ class FieldStream extends Stream {
   }
 }
 
+const seedMap = (map, [key, seed]) => {
+  map[key] = seed;
+  return map;
+};
+const isLiving = ([key, cell]) => cell.living === true;
+const incrementLiveNeighbors = (field) => ([key]) =>
+  getNeighbors(key).forEach((neighbor) => field.addLiveNeighbor(neighbor));
+const makeSeed = ([key, cell]) => [key, [cell.living, cell.liveNeighbors]];
+const makeSeedNextGen = ([key, cell]) => {
+  cell.setLiving();
+  return [key, [cell.living, 0]];
+};
+
 const fieldStream = ({ fieldArray, fieldMap }) => {
   return new FieldStream(new GameField({ fieldArray, fieldMap }), function () {
     // calculate liveNeighbors for all cells on first next call
-    for (const key in this.map) {
-      getNeighbors(key).forEach((neighbor) => this.addLiveNeighbor(neighbor));
-    }
-    this.tail = function () {
-      // call .next on all Cells on second next call
-    };
-    return this;
+    Object.entries(this.map)
+      .filter(isLiving)
+      .forEach(incrementLiveNeighbors(this));
+    // generate seed for next Stream with liveNeighbors
+    const mapWithLiveNeighbors = Object.entries(this.map)
+      .map(makeSeed)
+      .reduce(seedMap, {});
+    // return next stream
+    return new FieldStream(
+      new GameField({ fieldMap: mapWithLiveNeighbors }),
+      function () {
+        // determine living cells for next generation
+        const nextGeneration = Object.entries(this.map)
+          .map(makeSeedNextGen)
+          .reduce(seedMap, {});
+        // seed next Stream
+        return fieldStream({ fieldMap: nextGeneration });
+      }
+    );
   });
 };
-// as a stream -> fieldStream => Stream(GameField, () => Stream(fieldStream.computeNeighbors(), () => Stream(fieldStream.setLiving()))
 
 // instantiate table (orientation of major and minor axis dependent on viewport)
 // const gameFields = new Array(1).fill(new GameField({}));
