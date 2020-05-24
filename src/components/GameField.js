@@ -1,5 +1,5 @@
 const { cellStream } = require("./Cell");
-const { Stream } = require("../utils");
+const { Stream, getNeighbors } = require("../utils");
 
 class GameField {
   constructor({ fieldArray = [], fieldMap = {} }) {
@@ -8,7 +8,7 @@ class GameField {
     fieldArray.forEach((subArray, majorIndex) =>
       subArray.forEach((value, minorIndex) => {
         if (value > 0) {
-          this.map[`${majorIndex}-${minorIndex}`] = cellStream(true, 0);
+          this.map[`${majorIndex},${minorIndex}`] = cellStream(true, 0);
         }
       })
     );
@@ -27,18 +27,26 @@ class FieldStream extends Stream {
   get map() {
     return this.head.map;
   }
+  addLiveNeighbor(key) {
+    if (this.map[key] === undefined) {
+      this.map[key] = new cellStream(false);
+    }
+    this.map[key].addLiveNeighbor();
+  }
 }
 
 const fieldStream = ({ fieldArray, fieldMap }) => {
   return new FieldStream(new GameField({ fieldArray, fieldMap }), function () {
     // calculate liveNeighbors for all cells on first next call
-
-    new FieldStream({}, function () {
+    for (const key in this.map) {
+      getNeighbors(key).forEach((neighbor) => this.addLiveNeighbor(neighbor));
+    }
+    this.tail = function () {
       // call .next on all Cells on second next call
-    });
+    };
+    return this;
   });
 };
-
 // as a stream -> fieldStream => Stream(GameField, () => Stream(fieldStream.computeNeighbors(), () => Stream(fieldStream.setLiving()))
 
 // instantiate table (orientation of major and minor axis dependent on viewport)

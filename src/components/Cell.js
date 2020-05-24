@@ -31,8 +31,14 @@ class CellStream extends Stream {
   get living() {
     return this.head.living;
   }
+  get liveNeighbors() {
+    return this.head.liveNeighbors;
+  }
   set liveNeighbors(liveNeighbors) {
     this.head.liveNeighbors = liveNeighbors;
+  }
+  addLiveNeighbor() {
+    this.head.addLiveNeighbor();
   }
 }
 
