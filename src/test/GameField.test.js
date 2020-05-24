@@ -235,7 +235,7 @@ describe("fieldStream.next tests still lifes", () => {
   });
 });
 
-describe("fieldStream.next tests oscillators", () => {
+describe("fieldStream.next tests oscillators, spaceships", () => {
   const blinkerArray = [
     [0, 1, 0],
     [0, 1, 0],
@@ -269,8 +269,99 @@ describe("fieldStream.next tests oscillators", () => {
     ["2,2", false],
   ].forEach(([key, live]) => {
     test(`after two generations of blinker, ${key} alive: ${live}`, () => {
-      console.log(streamBlinker.next.next.map);
       expect(streamBlinker.next.next.next.next.map[key].living).toEqual(live);
+    });
+  });
+
+  const gliderArray = [
+    [0, 1, 0],
+    [0, 0, 1],
+    [1, 1, 1],
+  ];
+  const streamGlider = fieldStream({ fieldArray: gliderArray });
+
+  [
+    ["0,0", false],
+    ["0,1", false],
+    ["0,2", false],
+    ["1,0", true],
+    ["1,1", false],
+    ["1,2", true],
+    ["2,0", false],
+    ["2,1", true],
+    ["2,2", true],
+    ["3,0", false],
+    ["3,1", true],
+    ["3,2", false],
+  ].forEach(([key, live]) => {
+    test(`after one generation of glider, ${key} alive: ${live}`, () => {
+      expect(streamGlider.next.next.map[key].living).toEqual(live);
+    });
+  });
+  [
+    ["0,0", false],
+    ["0,1", false],
+    ["0,2", false],
+    ["1,0", false],
+    ["1,1", false],
+    ["1,2", true],
+    ["2,0", true],
+    ["2,1", false],
+    ["2,2", true],
+    ["3,0", false],
+    ["3,1", true],
+    ["3,2", true],
+  ].forEach(([key, live]) => {
+    test(`after two generations of glider, ${key} alive: ${live}`, () => {
+      expect(streamGlider.next.next.next.next.map[key].living).toEqual(live);
+    });
+  });
+  [
+    ["0,0", false],
+    ["0,1", false],
+    ["0,2", false],
+    ["0,3", false],
+    ["1,0", false],
+    ["1,1", true],
+    ["1,2", false],
+    ["1,3", false],
+    ["2,0", false],
+    ["2,1", false],
+    ["2,2", true],
+    ["2,3", true],
+    ["3,0", false],
+    ["3,1", true],
+    ["3,2", true],
+    ["3,3", false],
+  ].forEach(([key, live]) => {
+    test(`after three generations of glider, ${key} alive: ${live}`, () => {
+      expect(
+        streamGlider.next.next.next.next.next.next.map[key].living
+      ).toEqual(live);
+    });
+  });
+  [
+    ["0,0", false],
+    ["0,1", false],
+    ["0,2", false],
+    ["0,3", false],
+    ["1,0", false],
+    ["1,1", false],
+    ["1,2", true],
+    ["1,3", false],
+    ["2,0", false],
+    ["2,1", false],
+    ["2,2", false],
+    ["2,3", true],
+    ["3,0", false],
+    ["3,1", true],
+    ["3,2", true],
+    ["3,3", true],
+  ].forEach(([key, live]) => {
+    test(`after four generations of glider, ${key} alive: ${live}`, () => {
+      expect(
+        streamGlider.next.next.next.next.next.next.next.next.map[key].living
+      ).toEqual(live);
     });
   });
 });

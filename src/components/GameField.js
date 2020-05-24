@@ -74,6 +74,11 @@ const fieldStream = ({ fieldArray, fieldMap }) => {
   });
 };
 
+// wrapper for fieldStream
+// -- .next => calls .next.next on fieldStream to advance one generation
+// -- .reset => instantiates new fieldStream
+// -- .toggle(cell) => manually toggles cell state
+
 // instantiate table (orientation of major and minor axis dependent on viewport)
 // const gameFields = new Array(1).fill(new GameField({}));
 // const container = document.getElementById("game-field");
