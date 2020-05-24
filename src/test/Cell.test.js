@@ -1,4 +1,4 @@
-const Cell = require("../components/Cell");
+import Cell from "../components/Cell";
 
 describe("Cell functionality", () => {
   test("dispatch toggleLiving state should mark living cell dead", () => {
@@ -42,5 +42,4 @@ describe("Cell functionality", () => {
       expect(cell.living).toEqual(state);
     });
   });
-  test.todo("dispatch setLiving should reset live neighbors");
 });
