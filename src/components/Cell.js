@@ -1,7 +1,7 @@
 class Cell {
-  constructor(living = false) {
+  constructor(living = false, liveNeighbors = 0) {
     this.living = living;
-    this.liveNeighbors = 0;
+    this.liveNeighbors = liveNeighbors;
   }
   toggleLiving() {
     this.living = !this.living;
