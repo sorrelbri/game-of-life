@@ -1,5 +1,8 @@
-import css from "./styles/reset.css";
-require("./components/Cell")(() => console.log("hello world!"))();
+import reset from "./styles/reset.css";
+import css from "./styles/style.css";
+// import Controls from './components/Controls';
+import GameField from "./components/GameField";
+(() => console.log("hello world!"))();
 
 // controls
 // -- state=idle ?

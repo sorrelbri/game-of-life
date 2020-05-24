@@ -1,4 +1,4 @@
-import Cell from "../components/Cell";
+import { Cell, cellStream } from "../components/Cell";
 
 describe("Cell functionality", () => {
   test("dispatch toggleLiving state should mark living cell dead", () => {
@@ -42,4 +42,27 @@ describe("Cell functionality", () => {
       expect(cell.living).toEqual(state);
     });
   });
+
+  const cellStreamNextCalls = [
+    [2, false],
+    [3, true],
+    [0, false],
+    [5, false],
+  ];
+
+  cellStreamNextCalls.forEach(([liveNeighbors, livingResult]) => {
+    test(`cellStream advances cell state for ${liveNeighbors} live Neighbors (from dead cell)`, () => {
+      const cell = cellStream(false, liveNeighbors).next;
+      expect(cell.living).toEqual(livingResult);
+    });
+  });
+
+  [[2, true], ...cellStreamNextCalls.slice(1)].forEach(
+    ([liveNeighbors, livingResult]) => {
+      test(`cellStream advances cell state for ${liveNeighbors} live Neighbors (from living cell)`, () => {
+        const cell = cellStream(true, liveNeighbors).next;
+        expect(cell.living).toEqual(livingResult);
+      });
+    }
+  );
 });

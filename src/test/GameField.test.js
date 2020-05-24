@@ -1,11 +1,5 @@
 import GameField from "../components/GameField";
 
-describe("Game Field", () => {
-  test("smoke test", () => {
-    expect(new GameField([])).toEqual({ map: {} });
-  });
-});
-
 describe("Game Field seeds living Cells with array", () => {
   const gameArraySeed = new GameField({
     fieldArray: [
