@@ -1,0 +1,41 @@
+aside {
+  background: red;
+  justify-content: space-evenly;
+  display: flex;
+  flex-flow: column nowrap;
+  position: float;
+  top: 0;
+}
+
+aside * {
+  background: red;
+  color: white;
+}
+
+h1 {
+  font-size: 130%;
+  padding: 1em;
+
+}
+
+div.playControls {
+  min-width: 30vw;
+  display: grid;
+  border-radius: 1vh;
+  border: solid white .5vh;
+  grid-template-rows: 2fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1vh;
+  grid-template-areas: "buttons buttons buttons" " slider slider slider";
+  padding: 1vh;
+}
+
+button {
+  width: 100%;
+  border-radius: .5vh;
+  border: solid white .5vh;
+}
+
+input[type="range"] {
+  grid-area: slider;
+}

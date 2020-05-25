@@ -2,8 +2,10 @@ import reset from "./styles/reset.css";
 import css from "./styles/style.css";
 // import Controls from './components/Controls';
 const { fieldView } = require("./components/GameFieldTable");
+const { init } = require("./components/Controls");
 (() => console.log("hello world!"))();
 window.game = fieldView();
+window.controls = init(game);
 // controls
 // -- state=idle ?
 // ---- rewind runs through gameHistory to current state - 1 step

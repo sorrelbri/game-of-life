@@ -107,7 +107,9 @@ const fieldView = (seed) => {
         this.view[key].dataset.alive = cell.living;
       });
     },
-    reset() {},
+    reset() {
+      return fieldView(seed);
+    },
     advance() {
       this.field = this.field.next.next;
       console.log(this.field);
