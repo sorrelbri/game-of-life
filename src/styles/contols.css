@@ -24,9 +24,9 @@ div.playControls {
   border-radius: 1vh;
   border: solid white .5vh;
   grid-template-rows: 2fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1vh;
-  grid-template-areas: "buttons buttons buttons" " slider slider slider";
+  grid-template-areas: "buttons buttons buttons buttons" "slider slider slider slider";
   padding: 1vh;
 }
 

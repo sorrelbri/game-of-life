@@ -7,6 +7,9 @@ const init = (gameField) => {
   const rateEl = document.getElementById("rate");
   const forwardEl = document.getElementById("forward");
   const playEl = document.getElementById("play");
+  const resetEl = document.getElementById("reset");
+  const clearEl = document.getElementById("clear");
+  const canvasEl = document.getElementById("game-field");
   const controls = {
     interval: null,
     play() {
@@ -19,14 +22,20 @@ const init = (gameField) => {
         this.interval = null;
       }
     },
+    clear() {
+      gameField = gameField.clear();
+    },
     reset() {
       this.pause();
-      gameField.reset();
+      gameField = gameField.reset();
     },
     forward() {
       gameField.advance();
     },
     rate: 10,
+    updateField(x, y) {
+      gameField = gameField.toggleCell(x, y);
+    },
     updateRate(rate) {
       console.log("updating rate");
       console.log(rate);
@@ -54,6 +63,20 @@ const init = (gameField) => {
     }
     controls.play();
     forwardEl.disabled = true;
+  });
+  resetEl.addEventListener("click", (e) => {
+    e.preventDefault();
+    controls.reset();
+  });
+  clearEl.addEventListener("click", (e) => {
+    e.preventDefault();
+    controls.clear();
+  });
+  canvasEl.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (controls.interval) return;
+    const { offsetX, offsetY } = e;
+    controls.updateField(offsetX, offsetY);
   });
   return controls;
 };

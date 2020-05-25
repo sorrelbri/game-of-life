@@ -5,44 +5,70 @@ const canvasEl = document.getElementById("game-field");
 const canvas2D = canvasEl.getContext("2d");
 canvas2D.fillStyle = "white";
 
-const parseSeed = (seed) => ({
-  fieldArray: [
-    [0, 1, 0],
-    [0, 0, 1],
-    [1, 1, 1],
-  ],
-});
+const parseSeed = (seed) => {
+  if (seed && Array.isArray(seed)) {
+    return {
+      fieldArray: [
+        [0, 1, 0],
+        [0, 0, 1],
+        [1, 1, 1],
+      ],
+    };
+  }
+  return seed;
+};
 
 const fieldView = (seed) => {
-  fieldArray = parseSeed(seed);
+  console.log(seed);
+  seed = parseSeed(seed);
   // generateTable(true);
-  const field = fieldStream(fieldArray);
-  return {
+  console.log(seed);
+  const field = fieldStream(seed);
+  const view = {
     draw(x, y) {
       const { scale, offset } = this.dimension;
       canvas2D.fillRect(x * scale + offset, y * scale + offset, scale, scale);
     },
     dimension: { x0: 0, y0: 0, x1: 500, y1: 300, scale: 6, offset: 100 },
     field,
-    updateView(field) {
+    updateView() {
       canvas2D.clearRect(0, 0, this.dimension.x1, this.dimension.y1);
-      Object.entries(field.map)
+      Object.entries(this.field.map)
         .filter(([key, cell]) => cell.living)
         .map(([key]) => key.split(","))
         .forEach(([x, y]) => this.draw(x, y));
     },
+    clear() {
+      return fieldView({});
+    },
     reset() {
-      return fieldView(seed);
-      this.updateView(this.field);
+      const newField = fieldView(seed);
+      newField.updateView();
+      return newField;
     },
     advance() {
       this.field = this.field.next.next;
-      this.updateView(this.field);
+      this.updateView();
     },
-    handleClick(e) {
-      // toggle single cell
+    toggleCell(x, y) {
+      const { scale, offset } = this.dimension;
+      x = Math.floor((x - offset) / scale);
+      y = Math.floor((y - offset) / scale);
+      console.log(x, y);
+      const fieldMap = Object.entries(this.field.map)
+        .map(([key, cell]) => [key, cell.living])
+        .reduce((map, [key, living]) => {
+          map[key] = [living];
+          return map;
+        }, {});
+      fieldMap[`${x},${y}`] = !!fieldMap[`${x},${y}`]
+        ? [!fieldMap[`${x},${y}`][0]]
+        : [true];
+      return new fieldView({ fieldMap });
     },
   };
+  view.updateView();
+  return view;
 };
 
 module.exports = {
