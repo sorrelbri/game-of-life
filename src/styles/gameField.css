@@ -1,18 +1,6 @@
-tr{
-  height: 100%;
-  width: 100%;
+canvas {
+  background: #222;
+  color: white;
+  border: 0.5vmin solid #aaa;
+  fill: white;
 }
-
-td {
-  height: 1vmin;
-  width: 1vmin;
-  border: 0.3vmin solid #444;
-}
-
-td[data-alive="true"] {
-  background: #bdb;
-}
-
-td[data-alive="false"] {
-  background: #111;
-  }

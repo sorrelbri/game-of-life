@@ -26,7 +26,7 @@ const init = (gameField) => {
     forward() {
       gameField.advance();
     },
-    rate: 50,
+    rate: 10,
     updateRate(rate) {
       console.log("updating rate");
       console.log(rate);
@@ -48,7 +48,12 @@ const init = (gameField) => {
   });
   playEl.addEventListener("click", (e) => {
     e.preventDefault();
-    controls.interval ? controls.pause() : controls.play();
+    if (controls.interval) {
+      controls.pause();
+      return (forwardEl.disabled = false);
+    }
+    controls.play();
+    forwardEl.disabled = true;
   });
   return controls;
 };
