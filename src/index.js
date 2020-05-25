@@ -1,8 +1,9 @@
 import reset from "./styles/reset.css";
 import css from "./styles/style.css";
 // import Controls from './components/Controls';
-const { GameField } = require("./components/GameField");
+const { fieldView } = require("./components/GameFieldTable");
 (() => console.log("hello world!"))();
+window.game = fieldView();
 // controls
 // -- state=idle ?
 // ---- rewind runs through gameHistory to current state - 1 step

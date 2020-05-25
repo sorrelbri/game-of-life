@@ -16,8 +16,6 @@ class GameField {
       ([key, [live, neighbors]]) =>
         (this.map[key] = cellStream(live, neighbors))
     );
-    // instead of implementing multiple GameFields, clear irrelevant keys and expand Game Field as needed
-    // discrete Field expansion should only happen in View (to keep view fields centered)
   }
 }
 
@@ -30,7 +28,7 @@ class FieldStream extends Stream {
   }
   addLiveNeighbor(key) {
     if (this.map[key] === undefined) {
-      this.map[key] = new cellStream(false);
+      this.map[key] = cellStream(false);
     }
     this.map[key].addLiveNeighbor();
   }
@@ -75,13 +73,11 @@ const fieldStream = ({ fieldArray, fieldMap }) => {
 };
 
 // wrapper for fieldStream
-// -- .next => calls .next.next on fieldStream to advance one generation
 // -- .reset => instantiates new fieldStream
 // -- .toggle(cell) => manually toggles cell state
 
 // instantiate table (orientation of major and minor axis dependent on viewport)
 // const gameFields = new Array(1).fill(new GameField({}));
-// const container = document.getElementById("game-field");
 
 module.exports = {
   GameField,

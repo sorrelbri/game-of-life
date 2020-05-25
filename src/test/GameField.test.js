@@ -257,6 +257,7 @@ describe("fieldStream.next tests oscillators, spaceships", () => {
       expect(streamBlinker.next.next.map[key].living).toEqual(live);
     });
   });
+
   [
     ["0,0", false],
     ["0,1", true],
