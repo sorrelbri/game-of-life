@@ -8,8 +8,8 @@
     "build": "webpack --mode=production --config webpack.prod.js",
     "test": "jest",
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "cleanup": "rm -rf node_modules/gh-pages/.cache",
+    "deploy": "npm run cleanup && gh-pages -d dist"
   },
   "author": "",
   "license": "MIT",
