@@ -1,3 +1,5 @@
+const token = process.env.GITHUB_API_TOKEN;
+
 const query = (user) => `query {
   user (login: "${user}") {
 		contributionsCollection {
@@ -17,6 +19,7 @@ const options = (user) => ({
   method: "post",
   headers: {
     "Content-Type": "application/json",
+    Authorization: `bearer ${token}`,
   },
   body: JSON.stringify({
     query: query(user),
@@ -24,9 +27,13 @@ const options = (user) => ({
 });
 
 const getCalendar = (user) => {
-  // return fetch(`https://api.github.com/graphql`, options(user)).then((res) =>
-  //   res.json()
-  // );
+  return fetch(`https://api.github.com/graphql`, options(user))
+    .then((res) => res.json())
+    .then(
+      (result) =>
+        result.data.user.contributionsCollection.contributionCalendar.weeks
+    )
+    .catch((e) => e);
 };
 
 class Stream {

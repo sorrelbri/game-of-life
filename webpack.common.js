@@ -1,6 +1,7 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { DefinePlugin } = require("webpack");
 
 module.exports = {
   entry: {
@@ -11,6 +12,11 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: "index.html",
+    }),
+    new DefinePlugin({
+      "process.env.GITHUB_API_TOKEN": JSON.stringify(
+        process.env.GITHUB_API_TOKEN
+      ),
     }),
   ],
   output: {

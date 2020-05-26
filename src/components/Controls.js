@@ -31,6 +31,12 @@ const init = (gameField) => {
       this.pause();
       gameField = gameField.reset();
     },
+    seed(weeks) {
+      if (weeks.length) {
+        gameField = gameField.seed(weeks);
+        console.log(gameField);
+      }
+    },
     forward() {
       gameField.advance();
     },
@@ -83,7 +89,16 @@ const init = (gameField) => {
   calendarFormEl.addEventListener("submit", (e) => {
     e.preventDefault();
     const user = e.target[0].value;
-    console.log(getCalendar(user));
+    getCalendar(user)
+      .then((data) => {
+        return data.map((week) => {
+          return week.contributionDays.map((day) => day.contributionCount);
+        });
+      })
+      .then((weeks) => controls.seed(weeks))
+      .catch((e) => {
+        calendarFormEl.elements[0].value = "enter valid handle";
+      });
   });
   return controls;
 };

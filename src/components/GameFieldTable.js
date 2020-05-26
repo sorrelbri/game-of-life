@@ -8,21 +8,17 @@ canvas2D.fillStyle = "white";
 const parseSeed = (seed) => {
   if (seed && Array.isArray(seed)) {
     return {
-      fieldArray: [
-        [0, 1, 0],
-        [0, 0, 1],
-        [1, 1, 1],
-      ],
+      fieldArray: seed,
     };
   }
   return seed;
 };
 
 const fieldView = (seed) => {
-  console.log(seed);
+  // console.log(seed);
   seed = parseSeed(seed);
-  // generateTable(true);
-  console.log(seed);
+  // // generateTable(true);
+  // console.log(seed);
   const field = fieldStream(seed);
   const view = {
     draw(x, y) {
@@ -45,6 +41,10 @@ const fieldView = (seed) => {
       const newField = fieldView(seed);
       newField.updateView();
       return newField;
+    },
+    seed(seed) {
+      console.log(seed);
+      return fieldView(seed);
     },
     advance() {
       this.field = this.field.next.next;
