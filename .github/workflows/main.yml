@@ -28,4 +28,6 @@ jobs:
     - name: Test
       run: npm run test
     - name: Deploy
-      run: npm run deploy ${{ secrets.GITHUB_TOKEN }}
+      run: npm run deploy
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_EPG_BOT_TOKEN }}
