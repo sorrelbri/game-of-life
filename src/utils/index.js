@@ -1,38 +1,13 @@
-const token = process.env.API_TOKEN;
-
-const query = (user) => `query {
-  user (login: "${user}") {
-		contributionsCollection {
-      contributionCalendar {
-        weeks {
-          contributionDays {
-            contributionCount
-          }
-        }
-      }
-    }
-  }	
-	
-}`;
-
-const options = (user) => ({
-  method: "post",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `bearer ${token}`,
-  },
-  body: JSON.stringify({
-    query: query(user),
-  }),
-});
+const options = {
+  method: "get",
+};
 
 const getCalendar = (user) => {
-  return fetch(`https://api.github.com/graphql`, options(user))
+  return fetch(
+    `https://appkeychain.herokuapp.com/git/calendar/${user}`,
+    options
+  )
     .then((res) => res.json())
-    .then(
-      (result) =>
-        result.data.user.contributionsCollection.contributionCalendar.weeks
-    )
     .catch((e) => e);
 };
 
