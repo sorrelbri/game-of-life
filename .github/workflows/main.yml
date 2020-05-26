@@ -32,4 +32,4 @@ jobs:
       uses: Cecilapp/GitHub-Pages-deploy@2.0.1
       # run: npm run deploy
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_EPG_BOT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
