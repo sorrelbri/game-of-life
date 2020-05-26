@@ -9,7 +9,7 @@
     "test": "jest",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "git push git@github.com:sorrelbri/game-of-life.git -d dist"
   },
   "author": "",
   "license": "MIT",
