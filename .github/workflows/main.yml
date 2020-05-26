@@ -26,7 +26,7 @@ jobs:
     - name: Test
       run: npm run test
     - name: Build
-      run:  ${{secrets.GITHUB_API_TOKEN}} npm run build
+      run:  ${{secrets.API_TOKEN}} npm run build
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:

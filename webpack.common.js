@@ -14,9 +14,7 @@ module.exports = {
       template: "index.html",
     }),
     new DefinePlugin({
-      "process.env.GITHUB_API_TOKEN": JSON.stringify(
-        process.env.GITHUB_API_TOKEN
-      ),
+      "process.env.API_TOKEN": JSON.stringify(process.env.API_TOKEN),
     }),
   ],
   output: {

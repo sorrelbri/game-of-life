@@ -1,4 +1,4 @@
-const token = process.env.GITHUB_API_TOKEN;
+const token = process.env.API_TOKEN;
 
 const query = (user) => `query {
   user (login: "${user}") {
