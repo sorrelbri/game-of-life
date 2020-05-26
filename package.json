@@ -8,7 +8,7 @@
     "build": "webpack --mode=production --config webpack.prod.js",
     "test": "jest",
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "predeploy": "npm run build --env.TOKEN=",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "author": "",
