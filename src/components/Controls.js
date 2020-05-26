@@ -34,7 +34,6 @@ const init = (gameField) => {
     seed(weeks) {
       if (weeks.length) {
         gameField = gameField.seed(weeks);
-        console.log(gameField);
       }
     },
     forward() {
@@ -45,9 +44,6 @@ const init = (gameField) => {
       gameField = gameField.toggleCell(x, y);
     },
     updateRate(rate) {
-      console.log("updating rate");
-      console.log(rate);
-      console.log(this.interval);
       controls.rate = rate;
       if (this.interval) {
         clearInterval(this.interval);

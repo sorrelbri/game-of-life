@@ -15,10 +15,7 @@ const parseSeed = (seed) => {
 };
 
 const fieldView = (seed) => {
-  // console.log(seed);
   seed = parseSeed(seed);
-  // // generateTable(true);
-  // console.log(seed);
   const field = fieldStream(seed);
   const view = {
     draw(x, y) {
@@ -43,7 +40,6 @@ const fieldView = (seed) => {
       return newField;
     },
     seed(seed) {
-      console.log(seed);
       return fieldView(seed);
     },
     advance() {
@@ -54,7 +50,6 @@ const fieldView = (seed) => {
       const { scale, offset } = this.dimension;
       x = Math.floor((x - offset) / scale);
       y = Math.floor((y - offset) / scale);
-      console.log(x, y);
       const fieldMap = Object.entries(this.field.map)
         .map(([key, cell]) => [key, cell.living])
         .reduce((map, [key, living]) => {

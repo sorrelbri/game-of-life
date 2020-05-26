@@ -4,6 +4,7 @@
 }
 
 body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -11,13 +12,16 @@ body {
 
 main, aside {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
   height: 100%;
   width: 100%;
 }
 main {
-
   overflow: scroll;
+}
+
+main p {
+  padding: 1em;
 }

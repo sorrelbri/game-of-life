@@ -1,15 +1,16 @@
 aside {
-  background: red;
+  background: #944;
   justify-content: space-evenly;
   display: flex;
   flex-flow: column nowrap;
   position: float;
   top: 0;
+  border-bottom: solid 1em #522;
 }
 
 aside * {
-  background: red;
-  color: white;
+  background: inherit;
+  color: #dff;
 }
 
 h1 {
@@ -22,7 +23,7 @@ div.playControls {
   min-width: 30vw;
   display: grid;
   border-radius: 1vh;
-  border: solid white .5vh;
+  border: solid .5vh;
   grid-template-rows: 2fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1vh;
@@ -32,10 +33,19 @@ div.playControls {
 
 button {
   width: 100%;
+  background: #ccc;
   border-radius: .5vh;
-  border: solid white .5vh;
+}
+
+button:disabled {
+  background: #999;
 }
 
 input[type="range"] {
   grid-area: slider;
+}
+
+form {
+  margin: 0.5em;
+  padding: 0.5em
 }
