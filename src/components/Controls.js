@@ -1,5 +1,6 @@
 const html = require("./controls.html");
-const css = require("../styles/contols.css");
+const css = require("../styles/controls.css");
+const { getCalendar } = require("../utils/index");
 
 const init = (gameField) => {
   const controlsEl = document.getElementById("controls");
@@ -10,6 +11,7 @@ const init = (gameField) => {
   const resetEl = document.getElementById("reset");
   const clearEl = document.getElementById("clear");
   const canvasEl = document.getElementById("game-field");
+  const calendarFormEl = document.getElementById("calendar-form");
   const controls = {
     interval: null,
     play() {
@@ -77,6 +79,11 @@ const init = (gameField) => {
     if (controls.interval) return;
     const { offsetX, offsetY } = e;
     controls.updateField(offsetX, offsetY);
+  });
+  calendarFormEl.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const user = e.target[0].value;
+    console.log(getCalendar(user));
   });
   return controls;
 };

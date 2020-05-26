@@ -1,3 +1,34 @@
+const query = (user) => `query {
+  user (login: "${user}") {
+		contributionsCollection {
+      contributionCalendar {
+        weeks {
+          contributionDays {
+            contributionCount
+          }
+        }
+      }
+    }
+  }	
+	
+}`;
+
+const options = (user) => ({
+  method: "post",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    query: query(user),
+  }),
+});
+
+const getCalendar = (user) => {
+  // return fetch(`https://api.github.com/graphql`, options(user)).then((res) =>
+  //   res.json()
+  // );
+};
+
 class Stream {
   constructor(head, next) {
     this.head = head;
@@ -30,4 +61,5 @@ const getNeighbors = (key) => {
 module.exports = {
   Stream,
   getNeighbors,
+  getCalendar,
 };
